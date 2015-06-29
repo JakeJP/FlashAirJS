@@ -1,0 +1,23 @@
+{
+  "name": "yokinsflashairclient",
+  "version": "0.9.4",
+  "description": "Javascript FlashAir client library.",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yokinsoft",
+  "license": "MIT",
+  "dependencies": {
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-typedoc": "^1.1.0",
+    "gulp-typescript": "^2.7.7",
+    "gulp-uglify": "^1.2.0"
+  }
+}
