@@ -203,7 +203,7 @@ var __extends = this.__extends || function (d, b) {
  * @license MIT License
  */
 /// <reference path="../typings/jquery/jquery.d.ts" />
-/// <reference path="../ts/flashAirTypes.ts" />
+/// <reference path="./flashAirTypes.ts" />
 /**
  * FlashAir module contains all classes which are needed for FlashAir client access.
  * Only entry point of FlashAir API access is {@link FlashAirClient FlashAir.FlashAirClient} class.
@@ -284,7 +284,8 @@ var FlashAir;
             var me = this;
             me.Command = new Command(this);
             me.Thumbnail = new Thumbnail(this);
-            me.Command = new Command(this);
+            me.Config = new Config(this);
+            me.Upload = new Upload(this);
             me.mastercode = sessionStorage.getItem("administrator");
             // options
             me.pollingInterval = !options.polling ? me.pollingInterval : options.polling === true ? me.pollingInterval : options.polling === false ? 0 : options.polling;
@@ -502,6 +503,7 @@ var FlashAir;
         };
         return CgiHost;
     })();
+    FlashAir.CgiHost = CgiHost;
     /**
      * represents /command.cgi API.
      * Every API method is asynchronous with JQueryPromise object. You can get the result in number, string and predefined enum or object
@@ -718,6 +720,7 @@ var FlashAir;
         Command.reColumns = /^(.+),(\d+),(\d+),(\d+),(\d+)/;
         return Command;
     })(CgiHost);
+    FlashAir.Command = Command;
     var Thumbnail = (function (_super) {
         __extends(Thumbnail, _super);
         function Thumbnail(fa) {
@@ -735,6 +738,7 @@ var FlashAir;
         };
         return Thumbnail;
     })(CgiHost);
+    FlashAir.Thumbnail = Thumbnail;
     var Config = (function (_super) {
         __extends(Config, _super);
         function Config(fa) {
@@ -778,6 +782,7 @@ var FlashAir;
         };
         return Config;
     })(CgiHost);
+    FlashAir.Config = Config;
     var Upload = (function (_super) {
         __extends(Upload, _super);
         function Upload(fa) {
@@ -785,4 +790,5 @@ var FlashAir;
         }
         return Upload;
     })(CgiHost);
+    FlashAir.Upload = Upload;
 })(FlashAir || (FlashAir = {}));
