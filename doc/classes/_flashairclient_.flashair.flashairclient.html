@@ -1,0 +1,1105 @@
+﻿<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>FlashAirClient | FlashAir Javascript client library</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script src="../assets/js/modernizr.js"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">FlashAir Javascript client library</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/_flashairclient_.html">&quot;flashAirClient&quot;</a>
+				</li>
+				<li>
+					<a href="../modules/_flashairclient_.flashair.html">FlashAir</a>
+				</li>
+				<li>
+					<a href="_flashairclient_.flashair.flashairclient.html">FlashAirClient</a>
+				</li>
+			</ul>
+			<h1>Class FlashAirClient</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>HTTP client for FlashAir.
+							<strong>Command</strong>, <strong>Config</strong>, <strong>Thumbnail</strong> properties are corresponding to each CGI API on FlashAir.
+							On the creation of this object, some APIs are automatically called to obtain the host version and status.
+							It starts polling automatically soon after the initialization.
+							Polling interval can be specified in constructor&#39;s option parameter.
+						Host ( FlashAir network address ) can be provided in the constructor or you can change the host address any time later by calling <a href="_flashairclient_.flashair.flashairclient.html#sethostaddress"><code>setHostAddress</code></a>.</p>
+					</div>
+					<h2 id="how-to-start">How to start</h2>
+					<p>Instantiating FlashAirClient object is the simplest start.</p>
+					<pre><code><span class="hljs-keyword">var</span> fa = <span class="hljs-keyword">new</span> FlashAir.FlashAirClient();
+</code></pre><p>Available options are defined in <a href="../interfaces/_flashairclient_.flashair.flashairclientconfig.html">FlashAirClientConfig</a>.</p>
+					<h2 id="events">Events</h2>
+					<p>This class supports DOM like event system. Changes of host SD card status and some more can be monitored by handling those events.
+					Event attach/detach methos are just same as jQuery&#39;s on/off/once</p>
+					<pre><code><span class="hljs-keyword">var</span> fa = <span class="hljs-keyword">new</span> FlashAir.FlashAirClient();
+fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-comment">// custom initialization</span>
+});
+</code></pre><h3 id="-fa-updated-"><code>fa.updated</code></h3>
+					<p>is triggered when /command.cgi?op=121 host timestamp returns updated number. You can take any action like getting a updated file list.</p>
+					<h3 id="-fa-hostchanged-"><code>fa.hostchanged</code></h3>
+					<p>is triggered when the host name or IP address is changing to another. During the initial connection, this event doesn&#39;t fire.</p>
+					<h3 id="-fa-hostready-"><code>fa.hostready</code></h3>
+					<p>After the initial connection or fireing <code>fa.hostchanged</code>, this class tries to obtain some host status by some API calls.
+					This event is triggered when those initial calls are all done.</p>
+					<h3 id="-fa-hostfailure-"><code>fa.hostfailure</code></h3>
+					<p>After calling <a href="_flashairclient_.flashair.flashairclient.html#sethostaddress">setHostAddress</a>, if connection failed, this event is triggered.</p>
+					<h3 id="-fa-polling-"><code>fa.polling</code></h3>
+					<p>reports polling status every <em>n</em> milliseconds interval which is configured with options for constructor.
+					The polling status has a status value:</p>
+					<pre><code>fa.on('fa.polling',<span class="hljs-function"> function(</span> status <span class="hljs-function">)</span>{
+    //<span class="hljs-instruction"> check </span>the status
+}<span class="hljs-function">)</span>;
+</code></pre><p>status value can be:</p>
+					<ul>
+						<li><strong>connecting</strong> Trying to connect to the host SD card.</li>
+						<li><strong>connected</strong> Connection to the host SD card has been confirmed.</li>
+						<li><strong>disconnected</strong>  Connection to the host SD card has been lost.</li>
+					</ul>
+					<h3 id="-fa-photosharemode-"><code>fa.photosharemode</code></h3>
+					<p>is triggered when the host SD card is currently in PHOTOSHARE mode.</p>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<a href="_flashairtypes_.flashair.eventemitter.html" class="tsd-signature-type">eventEmitter</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">FlashAirClient</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#command" class="tsd-kind-icon">Command</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#config" class="tsd-kind-icon">Config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#thumbnail" class="tsd-kind-icon">Thumbnail</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#upload" class="tsd-kind-icon">Upload</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_flashairclient_.flashair.flashairclient.html#_pausepolling" class="tsd-kind-icon">_pause<wbr>Polling</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#isadministrator" class="tsd-kind-icon">is<wbr>Administrator</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#lang" class="tsd-kind-icon">lang</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#mastercode" class="tsd-kind-icon">mastercode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#photosharemode" class="tsd-kind-icon">photo<wbr>Share<wbr>Mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_flashairclient_.flashair.flashairclient.html#pollinginterval" class="tsd-kind-icon">polling<wbr>Interval</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_flashairclient_.flashair.flashairclient.html#timer" class="tsd-kind-icon">timer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_flashairclient_.flashair.flashairclient.html#timestamp" class="tsd-kind-icon">timestamp</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#getfile" class="tsd-kind-icon">Get<wbr>File</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#getfileurl" class="tsd-kind-icon">Get<wbr>File<wbr>Url</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_flashairclient_.flashair.flashairclient.html#addeventlistener" class="tsd-kind-icon">add<wbr>Event<wbr>Listener</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_flashairclient_.flashair.flashairclient.html#browserlanguage" class="tsd-kind-icon">browser<wbr>Language</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_flashairclient_.flashair.flashairclient.html#initwithhost" class="tsd-kind-icon">init<wbr>With<wbr>Host</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_flashairclient_.flashair.flashairclient.html#off" class="tsd-kind-icon">off</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_flashairclient_.flashair.flashairclient.html#on" class="tsd-kind-icon">on</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_flashairclient_.flashair.flashairclient.html#onhostchanged" class="tsd-kind-icon">on<wbr>Host<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_flashairclient_.flashair.flashairclient.html#onhostfailure" class="tsd-kind-icon">on<wbr>Host<wbr>Failure</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="_flashairclient_.flashair.flashairclient.html#onhostready" class="tsd-kind-icon">on<wbr>Host<wbr>Ready</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_flashairclient_.flashair.flashairclient.html#once" class="tsd-kind-icon">once</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#pausepolling" class="tsd-kind-icon">pause<wbr>Polling</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_flashairclient_.flashair.flashairclient.html#poll" class="tsd-kind-icon">poll</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_flashairclient_.flashair.flashairclient.html#removealllisteners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_flashairclient_.flashair.flashairclient.html#removeeventlistener" class="tsd-kind-icon">remove<wbr>Event<wbr>Listener</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_flashairclient_.flashair.flashairclient.html#removelistener" class="tsd-kind-icon">remove<wbr>Listener</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#resumepolling" class="tsd-kind-icon">resume<wbr>Polling</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#sethostaddress" class="tsd-kind-icon">set<wbr>Host<wbr>Address</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#startpolling" class="tsd-kind-icon">start<wbr>Polling</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#stoppolling" class="tsd-kind-icon">stop<wbr>Polling</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_flashairclient_.flashair.flashairclient.html#trigger" class="tsd-kind-icon">trigger</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Flash<wbr>Air<wbr>Client<span class="tsd-signature-symbol">(</span>urlBase<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_flashairclient_.flashair.flashairclientconfig.html" class="tsd-signature-type">FlashAirClientConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_flashairclient_.flashair.flashairclient.html" class="tsd-signature-type">FlashAirClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:105</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> urlBase: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>an address to FlashAir host, &quot;<a href="http://flashair/">http://flashair/</a>&quot;. If omitted, proper host address is infered.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/_flashairclient_.flashair.flashairclientconfig.html" class="tsd-signature-type">FlashAirClientConfig</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>specify options. Available options are defined in <a href="../interfaces/_flashairclient_.flashair.flashairclientconfig.html">FlashAirClientConfig</a></p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_flashairclient_.flashair.flashairclient.html" class="tsd-signature-type">FlashAirClient</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="command" class="tsd-anchor"></a>
+					<h3>Command</h3>
+					<div class="tsd-signature tsd-kind-icon">Command<span class="tsd-signature-symbol">:</span> <a href="_flashairclient_.flashair.command.html" class="tsd-signature-type">Command</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:189</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>represents command.cgi.
+							command.cgi のオブジェクト表現</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="config" class="tsd-anchor"></a>
+					<h3>Config</h3>
+					<div class="tsd-signature tsd-kind-icon">Config<span class="tsd-signature-symbol">:</span> <a href="_flashairclient_.flashair.config.html" class="tsd-signature-type">Config</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:199</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>represents config.cgi
+							config.cgi のオブジェクト表現</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="thumbnail" class="tsd-anchor"></a>
+					<h3>Thumbnail</h3>
+					<div class="tsd-signature tsd-kind-icon">Thumbnail<span class="tsd-signature-symbol">:</span> <a href="_flashairclient_.flashair.thumbnail.html" class="tsd-signature-type">Thumbnail</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:194</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>represents thumbnail.cgi
+							thumbnail.cgi のオブジェクト表現</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="upload" class="tsd-anchor"></a>
+					<h3>Upload</h3>
+					<div class="tsd-signature tsd-kind-icon">Upload<span class="tsd-signature-symbol">:</span> <a href="_flashairclient_.flashair.upload.html" class="tsd-signature-type">Upload</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:204</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>represents upload.cgi
+							upload.cgi のオブジェクト表現</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_pausepolling" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _pause<wbr>Polling</h3>
+					<div class="tsd-signature tsd-kind-icon">_pause<wbr>Polling<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:240</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="baseurl" class="tsd-anchor"></a>
+					<h3>base<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:96</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>URL for FlashAir host device like &quot;<a href="http://flashair/">http://flashair/</a>&quot;.
+							url always ends with /.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="isadministrator" class="tsd-anchor"></a>
+					<h3>is<wbr>Administrator</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Administrator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:100</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This is set when the connecting client has a right mastercode.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="lang" class="tsd-anchor"></a>
+					<h3>lang</h3>
+					<div class="tsd-signature tsd-kind-icon">lang<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:105</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>holds current language. This value comes from user&#39;s browser&#39;s language setting, otherwise is obtained by command.cgi accept language.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="mastercode" class="tsd-anchor"></a>
+					<h3>mastercode</h3>
+					<div class="tsd-signature tsd-kind-icon">mastercode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:101</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="photosharemode" class="tsd-anchor"></a>
+					<h3>photo<wbr>Share<wbr>Mode</h3>
+					<div class="tsd-signature tsd-kind-icon">photo<wbr>Share<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:233</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="pollinginterval" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> polling<wbr>Interval</h3>
+					<div class="tsd-signature tsd-kind-icon">polling<wbr>Interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:239</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="timer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> timer</h3>
+					<div class="tsd-signature tsd-kind-icon">timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:236</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="timestamp" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> timestamp</h3>
+					<div class="tsd-signature tsd-kind-icon">timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:237</li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getfile" class="tsd-anchor"></a>
+					<h3>Get<wbr>File</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>File<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="_flashairtypes_.flashair.fileinfo.html" class="tsd-signature-type">FileInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:210</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Not implemented.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>path: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="_flashairtypes_.flashair.fileinfo.html" class="tsd-signature-type">FileInfo</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getfileurl" class="tsd-anchor"></a>
+					<h3>Get<wbr>File<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">Get<wbr>File<wbr>Url<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="_flashairtypes_.flashair.fileinfo.html" class="tsd-signature-type">FileInfo</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_flashairtypes_.flashair.fileinforaw.html" class="tsd-signature-type">FileInfoRaw</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:214</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>path: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="_flashairtypes_.flashair.fileinfo.html" class="tsd-signature-type">FileInfo</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_flashairtypes_.flashair.fileinforaw.html" class="tsd-signature-type">FileInfoRaw</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="addeventlistener" class="tsd-anchor"></a>
+					<h3>add<wbr>Event<wbr>Listener</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_flashairtypes_.flashair.eventemitter.html">eventEmitter</a>.<a href="_flashairtypes_.flashair.eventemitter.html#addeventlistener">addEventListener</a></p>
+								<ul>
+									<li>Defined in flashAirTypes.ts:154</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>fn: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="browserlanguage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> browser<wbr>Language</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">browser<wbr>Language<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JQueryPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:275</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">JQueryPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="initwithhost" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> init<wbr>With<wbr>Host</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">init<wbr>With<wbr>Host<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:154</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="off" class="tsd-anchor"></a>
+					<h3>off</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_flashairtypes_.flashair.eventemitter.html" class="tsd-signature-type">eventEmitter</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_flashairtypes_.flashair.eventemitter.html">eventEmitter</a>.<a href="_flashairtypes_.flashair.eventemitter.html#off">off</a></p>
+								<ul>
+									<li>Defined in flashAirTypes.ts:164</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>fn: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_flashairtypes_.flashair.eventemitter.html" class="tsd-signature-type">eventEmitter</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="on" class="tsd-anchor"></a>
+					<h3>on</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_flashairtypes_.flashair.eventemitter.html" class="tsd-signature-type">eventEmitter</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_flashairtypes_.flashair.eventemitter.html">eventEmitter</a>.<a href="_flashairtypes_.flashair.eventemitter.html#on">on</a></p>
+								<ul>
+									<li>Defined in flashAirTypes.ts:148</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>fn: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_flashairtypes_.flashair.eventemitter.html" class="tsd-signature-type">eventEmitter</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="onhostchanged" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Host<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Host<wbr>Changed<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:221</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="onhostfailure" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Host<wbr>Failure</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Host<wbr>Failure<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:230</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="onhostready" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> on<wbr>Host<wbr>Ready</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Host<wbr>Ready<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:225</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="once" class="tsd-anchor"></a>
+					<h3>once</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_flashairtypes_.flashair.eventemitter.html" class="tsd-signature-type">eventEmitter</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_flashairtypes_.flashair.eventemitter.html">eventEmitter</a>.<a href="_flashairtypes_.flashair.eventemitter.html#once">once</a></p>
+								<ul>
+									<li>Defined in flashAirTypes.ts:155</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>fn: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_flashairtypes_.flashair.eventemitter.html" class="tsd-signature-type">eventEmitter</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pausepolling" class="tsd-anchor"></a>
+					<h3>pause<wbr>Polling</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">pause<wbr>Polling<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:244</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="poll" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> poll</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">poll<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:251</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="removealllisteners" class="tsd-anchor"></a>
+					<h3>remove<wbr>All<wbr>Listeners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>All<wbr>Listeners<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_flashairtypes_.flashair.eventemitter.html">eventEmitter</a>.<a href="_flashairtypes_.flashair.eventemitter.html#removealllisteners">removeAllListeners</a></p>
+								<ul>
+									<li>Defined in flashAirTypes.ts:194</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>fn: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="removeeventlistener" class="tsd-anchor"></a>
+					<h3>remove<wbr>Event<wbr>Listener</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_flashairtypes_.flashair.eventemitter.html">eventEmitter</a>.<a href="_flashairtypes_.flashair.eventemitter.html#removeeventlistener">removeEventListener</a></p>
+								<ul>
+									<li>Defined in flashAirTypes.ts:195</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>fn: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="removelistener" class="tsd-anchor"></a>
+					<h3>remove<wbr>Listener</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Listener<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_flashairtypes_.flashair.eventemitter.html">eventEmitter</a>.<a href="_flashairtypes_.flashair.eventemitter.html#removelistener">removeListener</a></p>
+								<ul>
+									<li>Defined in flashAirTypes.ts:193</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>fn: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="resumepolling" class="tsd-anchor"></a>
+					<h3>resume<wbr>Polling</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">resume<wbr>Polling<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:245</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sethostaddress" class="tsd-anchor"></a>
+					<h3>set<wbr>Host<wbr>Address</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Host<wbr>Address<span class="tsd-signature-symbol">(</span>newUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, verify<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JQueryPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:127</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newUrl: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>new host URL of FlashAir, which may be like &quot;<a href="http://flashair/">http://flashair/</a>&quot; or &quot;<a href="http://192.168.0.100/">http://192.168.0.100/</a>&quot;</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> verify: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If true, this method tries to verify the existence of the host address by calling command.cgi</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">JQueryPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>jQuery promise object.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="startpolling" class="tsd-anchor"></a>
+					<h3>start<wbr>Polling</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Polling<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:241</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="stoppolling" class="tsd-anchor"></a>
+					<h3>stop<wbr>Polling</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">stop<wbr>Polling<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in flashAirClient.ts:246</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="trigger" class="tsd-anchor"></a>
+					<h3>trigger</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">trigger<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_flashairtypes_.flashair.eventemitter.html" class="tsd-signature-type">eventEmitter</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_flashairtypes_.flashair.eventemitter.html">eventEmitter</a>.<a href="_flashairtypes_.flashair.eventemitter.html#trigger">trigger</a></p>
+								<ul>
+									<li>Defined in flashAirTypes.ts:197</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_flashairtypes_.flashair.eventemitter.html" class="tsd-signature-type">eventEmitter</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_flashairclient_.flashair.cgihost.html" class="tsd-kind-icon">Cgi<wbr>Host</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_flashairclient_.flashair.command.html" class="tsd-kind-icon">Command</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_flashairclient_.flashair.config.html" class="tsd-kind-icon">Config</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
+						<a href="_flashairclient_.flashair.flashairclient.html" class="tsd-kind-icon">Flash<wbr>Air<wbr>Client</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#command" class="tsd-kind-icon">Command</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#config" class="tsd-kind-icon">Config</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#thumbnail" class="tsd-kind-icon">Thumbnail</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#upload" class="tsd-kind-icon">Upload</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_flashairclient_.flashair.flashairclient.html#_pausepolling" class="tsd-kind-icon">_pause<wbr>Polling</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#isadministrator" class="tsd-kind-icon">is<wbr>Administrator</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#lang" class="tsd-kind-icon">lang</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#mastercode" class="tsd-kind-icon">mastercode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#photosharemode" class="tsd-kind-icon">photo<wbr>Share<wbr>Mode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_flashairclient_.flashair.flashairclient.html#pollinginterval" class="tsd-kind-icon">polling<wbr>Interval</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_flashairclient_.flashair.flashairclient.html#timer" class="tsd-kind-icon">timer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_flashairclient_.flashair.flashairclient.html#timestamp" class="tsd-kind-icon">timestamp</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#getfile" class="tsd-kind-icon">Get<wbr>File</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#getfileurl" class="tsd-kind-icon">Get<wbr>File<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_flashairclient_.flashair.flashairclient.html#addeventlistener" class="tsd-kind-icon">add<wbr>Event<wbr>Listener</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_flashairclient_.flashair.flashairclient.html#browserlanguage" class="tsd-kind-icon">browser<wbr>Language</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="_flashairclient_.flashair.flashairclient.html#initwithhost" class="tsd-kind-icon">init<wbr>With<wbr>Host</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_flashairclient_.flashair.flashairclient.html#off" class="tsd-kind-icon">off</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_flashairclient_.flashair.flashairclient.html#on" class="tsd-kind-icon">on</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="_flashairclient_.flashair.flashairclient.html#onhostchanged" class="tsd-kind-icon">on<wbr>Host<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="_flashairclient_.flashair.flashairclient.html#onhostfailure" class="tsd-kind-icon">on<wbr>Host<wbr>Failure</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="_flashairclient_.flashair.flashairclient.html#onhostready" class="tsd-kind-icon">on<wbr>Host<wbr>Ready</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_flashairclient_.flashair.flashairclient.html#once" class="tsd-kind-icon">once</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#pausepolling" class="tsd-kind-icon">pause<wbr>Polling</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_flashairclient_.flashair.flashairclient.html#poll" class="tsd-kind-icon">poll</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_flashairclient_.flashair.flashairclient.html#removealllisteners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_flashairclient_.flashair.flashairclient.html#removeeventlistener" class="tsd-kind-icon">remove<wbr>Event<wbr>Listener</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_flashairclient_.flashair.flashairclient.html#removelistener" class="tsd-kind-icon">remove<wbr>Listener</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#resumepolling" class="tsd-kind-icon">resume<wbr>Polling</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#sethostaddress" class="tsd-kind-icon">set<wbr>Host<wbr>Address</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#startpolling" class="tsd-kind-icon">start<wbr>Polling</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#stoppolling" class="tsd-kind-icon">stop<wbr>Polling</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_flashairclient_.flashair.flashairclient.html#trigger" class="tsd-kind-icon">trigger</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_flashairclient_.flashair.thumbnail.html" class="tsd-kind-icon">Thumbnail</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_flashairclient_.flashair.upload.html" class="tsd-kind-icon">Upload</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../interfaces/_flashairclient_.flashair.configdefinition.html" class="tsd-kind-icon">Config<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_flashairclient_.flashair.flashairclientconfig.html" class="tsd-kind-icon">Flash<wbr>Air<wbr>Client<wbr>Config</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.io" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+<script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-3174161-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>
