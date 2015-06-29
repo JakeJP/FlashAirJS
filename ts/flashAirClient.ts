@@ -7,7 +7,7 @@
  * @license MIT License
  */
 /// <reference path="../typings/jquery/jquery.d.ts" />
-/// <reference path="../ts/flashAirTypes.ts" />
+/// <reference path="./flashAirTypes.ts" />
 /**
  * FlashAir module contains all classes which are needed for FlashAir client access.
  * Only entry point of FlashAir API access is {@link FlashAirClient FlashAir.FlashAirClient} class.
@@ -113,7 +113,8 @@ module FlashAir {
             var me = this;
             me.Command = new Command(this);
             me.Thumbnail = new Thumbnail(this);
-            me.Command = new Command(this);
+            me.Config = new Config(this);
+            me.Upload = new Upload(this);
             me.mastercode = sessionStorage.getItem("administrator");
             // options
             me.pollingInterval = !options.polling ? me.pollingInterval :  options.polling === true ? me.pollingInterval : options.polling === false ? 0 : <number>options.polling ;
@@ -328,7 +329,7 @@ module FlashAir {
      * base class of CGI.
      * This class contains utility methods for CGI call, HTTP GET/POST etc.
      */
-    class CgiHost
+    export class CgiHost
     {
         protected Client : FlashAirClient;
         CgiPath : string;
@@ -382,7 +383,7 @@ module FlashAir {
      *   });
      * ```
      */
-    class Command extends CgiHost
+    export class Command extends CgiHost
     {
         CgiPath = "command.cgi";
         /**
@@ -555,7 +556,7 @@ module FlashAir {
             return this.Get<number>(221).pipe(function(result){ return result * 15; });
         }
     }
-	class Thumbnail extends CgiHost
+	export class Thumbnail extends CgiHost
     {
         CgiPath = "thumbnail.cgi";
         constructor(fa : FlashAirClient )
@@ -591,7 +592,7 @@ module FlashAir {
             return response.Content.ReadAsStreamAsync().Result;
         }*/
     }
-    interface ConfigDefinition {
+    export interface ConfigDefinition {
         APPINFO? : string;
         APPMODE? : WiFiOperationMode;
         APPNETWORKKEY? : string;
@@ -605,7 +606,7 @@ module FlashAir {
         APPAUTOTIME? : number;
         
     }
-    class Config extends CgiHost
+    export class Config extends CgiHost
     {
         CgiPath = "config.cgi";
         CONFIG : ConfigDefinition = {};
@@ -665,7 +666,7 @@ module FlashAir {
 
     }
 	
-    class Upload extends CgiHost
+    export class Upload extends CgiHost
     {
         constructor(fa : FlashAirClient )
         {

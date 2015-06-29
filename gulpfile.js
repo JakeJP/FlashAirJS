@@ -4,6 +4,7 @@ var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
 	rename = require('gulp-rename'),
 	typedoc = require('gulp-typedoc'),
+	merge = require('gulp-merge'),
 	del = require('del');
 
 gulp.task('doc', function(){
@@ -21,18 +22,26 @@ gulp.task('doc', function(){
 });
 
 gulp.task('js', function(){
-	return gulp.src('./ts/**/*.ts')
+	var tsResult =  gulp.src( './ts/**/flashAir*.ts' )
 		.pipe( sourcemaps.init())
 		.pipe( tsc( new tsc.createProject({
 			target: 'ES3',
-			out: 'flashAirClient.js'
-		})))
-		.js
-		.pipe( gulp.dest('./js'))
-		.pipe( uglify({ preserveComments: 'some'}))
-		.pipe( rename({ extname: '.min.js'}))
-		.pipe( sourcemaps.write("."))
-		.pipe( gulp.dest('./js'));
+			out: 'flashAirClient.js',
+			//outDir: '../js',
+			declarationFiles : true
+		})));
+	return merge([
+		tsResult		
+			.js
+			.pipe( gulp.dest('./js'))
+			.pipe( uglify({ preserveComments: 'some'}))
+			.pipe( rename({ extname: '.min.js'}))
+			.pipe( sourcemaps.write("."))
+			.pipe( gulp.dest('./js')),
+		tsResult
+			.dts
+			.pipe( gulp.dest('./js'))
+	]);
 });
 
 gulp.task('clean', function(){
