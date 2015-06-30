@@ -16,6 +16,7 @@ gulp.task('doc', function(){
             target: "es3",
             includeDeclarations: false,
             excludeExternals: true,
+			readme: "./READMELIB.md",
             mode: "modules",
             gaID: "UA-3174161-2"
         })); 

@@ -63,59 +63,51 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="flashair-javascript-client-library">FlashAir Javascript Client Library</h1>
-				<p>TOSHIBA FlashAir(TM) is a SD memory card which is capable of serving the contents of SD memory card to the remote devices through WiFi. Connection methods are prepared in several ways.</p>
-				<ol>
-					<li>Direct access form web browser. Any modern web browsers can browse the files in directories by typing the host URL( <a href="http://flashair/">http://flashair/</a> )</li>
-					<li>API access. FlashAir also provides API as a form of CGI calls. This is the method that this library utilizes.</li>
-				</ol>
+				<h1 id="flashair-javascript-client-library">FlashAir Javascript client library</h1>
 				<ul>
 					<li>supports FlashAir(TM) TOSHIBA, WiFi capable SD memory card.</li>
-					<li>wraps all CGI calls, HTTP connections and change notifications.</li>
-					<li>available in TypeScript(ts), Javascript(js) compatible with ECMAScript 3</li>
-					<li>only depends on jQuery (for ajax connection and deferred handling)</li>
+					<li>compatible with ECMAScript 3</li>
+					<li>wraps HTTP and CGI calls as class methods.</li>
+					<li>written in TypeScript(.ts) and also available compiled results in .js files.</li>
+					<li>library depends on jQuery (ajax connection and deferred handling)</li>
 					<li>free to use and reuse under MIT license</li>
 				</ul>
-				<h1 id="simply-to-use">Simply to use</h1>
-				<p><strong>./js</strong> directory contains compiled javascript files in 2 styles.</p>
+				<h2 id="what-you-need-">What you need.</h2>
+				<h4 id="jquery">jquery</h4>
+				<h4 id="flashairclient-js-flashairclient-min-js-">flashAirClient.js (flashAirClient.min.js )</h4>
 				<ul>
-					<li><strong>flashAirClient.js</strong>   Non-minified version javascript file, which is compiled from TypeScript source files.</li>
-					<li><strong>flashAirClient.min.js</strong>  minified version of <code>flashAirClient.js</code> . Source map file is available in conjunction with this.</li>
+					<li>contains definitions for predefined values and enum values for CGI access.</li>
+					<li>wrapping ajax(http) calls with easy-to-read method calls and structured returned values.</li>
+					<li>command results are returned asynchronously by jQueryPromise object.</li>
+					<li>event notifies connection status, host change (update) and others</li>
+					<li>can dynamically change and switch host</li>
 				</ul>
-				<p>Include jQuery and <code>flashAirClient.js</code> file in your project.</p>
-				<p>The simplest example is like this</p>
-				<pre><code class="lang-ts">&lt;script src=<span class="hljs-string">"js/jquery-[version].js"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+				<h2 id="get-started-">Get started!</h2>
+				<p>After including jQuery, only starting point is <a href="classes/_flashairclient_.flashair.flashairclient.html">FlashAir.FlashAirClient</a> class.</p>
+				<h2 id="examples">Examples</h2>
+				<p>Simple use in HTML</p>
+				<pre><code><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"js/jquery-[version].js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"js/flashAirClient.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="actionscript">
     <span class="hljs-keyword">var</span> fa = <span class="hljs-keyword">new</span> FlashAir.FlashAirClient(<span class="hljs-string">"http://flashair/"</span>);
-    fa.Command.FileList(<span class="hljs-string">"/"</span>)
-        .done( <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">list</span>)</span>{
-            $.each(list, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">i, file</span>)</span>{
-            <span class="hljs-built_in">console</span>.log( file );
-            <span class="hljs-comment">// file is in a form of FileInfoRaw { r_uri, fname, ... }</span>
-        });
-</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span></span>
+    <span class="hljs-comment">// ... API calls</span>
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</code></pre><p>Just to list all files in the root directory</p>
+				<pre><code class="lang-ts"><span class="hljs-keyword">var</span> fa = <span class="hljs-keyword">new</span> FlashAir.FlashAirClient(<span class="hljs-string">"http://flashair/"</span>);
+fa.Command.FileList(<span class="hljs-string">"/"</span>)
+.done( <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">list</span>)</span>{
+    $.each(list, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">i, file</span>)</span>{
+        <span class="hljs-built_in">console</span>.log( file );
+        <span class="hljs-comment">// file is in a form of FileInfoRaw { r_uri, fname, ... }</span>
+    });
+});
 </code></pre>
-				<p>API documentation is located under <strong>doc</strong> directory.</p>
-				<h1 id="how-to-compile-typescript-source-files">How to compile TypeScript source files</h1>
-				<p><strong>gulp</strong> to compile TypeScript source files.</p>
-				<h4 id="requirement">Requirement</h4>
-				<ul>
-					<li><strong>NodeJS</strong> anyways.</li>
-					<li><strong>tsd</strong> can be installed by <code>npm install -g tsd</code></li>
-				</ul>
-				<h4 id="install-node-modules-">install node modules.</h4>
-				<pre><code>npm <span class="hljs-keyword">install</span>
-</code></pre><h4 id="install-typescript-definition-files-just-for-jquery-">install TypeScript definition files ( just for jquery )</h4>
-				<pre><code><span class="hljs-title">tsd</span> update
-</code></pre><h4 id="gulp-to-compile-ts-sources-and-doc-files-">gulp to compile <strong>ts</strong> sources and <strong>doc</strong> files.</h4>
-				<pre><code>gulp
-</code></pre><h2 id="applications">Applications</h2>
-				<p>Applications that use this library are published:</p>
-				<ul>
-					<li>Yokin&#39;s FlashAir Sync for Google Chrome.  Auto downloader software that runs on Windows, Linux and MacOS where Google Chrome is already installed. <a href="https://chrome.google.com/webstore/detail/yokins-flashair-sync/cmeohdjjopjjlfbiegcikeiioanainmb">https://chrome.google.com/webstore/detail/yokins-flashair-sync/cmeohdjjopjjlfbiegcikeiioanainmb</a></li>
-					<li>List.htm customization. You can customize the web browser design by placing List.htm in a hidden directory of FlashAir SD. <a href="https://github.com/JakeJP/FlashAirList">https://github.com/JakeJP/FlashAirList</a></li>
-				</ul>
+				<p>monitor file and directory changes</p>
+				<pre><code class="lang-ts"><span class="hljs-keyword">var</span> fa = <span class="hljs-keyword">new</span> FlashAir.FlashAirClient(<span class="hljs-string">"http://flashair/"</span>);
+fa.on(<span class="hljs-string">'fa.updated'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-comment">// SD card status has been changed. Do something.</span>
+});
+</code></pre>
 				<h2 id="compatilibity">Compatilibity</h2>
 				<p>Tested with FlashAir(TM) model W-03.</p>
 				<h2 id="version-history">Version History</h2>
@@ -126,7 +118,7 @@
 				<h2 id="license">License</h2>
 				<p>(c) 2015 Yokinsoft Jake.Y.Yoshimura <a href="http://www.yo-ki.com">http://www.yo-ki.com</a>
 				MIT License</p>
-				<p><a href="https://github.com/JakeJP/FlashAirJS">https://github.com/JakeJP/FlashAirJS</a></p>
+				<p><a href="https://github.com/JakeJP/FlashAirApp">https://github.com/JakeJP/FlashAirApp</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
