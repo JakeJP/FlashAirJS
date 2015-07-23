@@ -3,7 +3,7 @@
  * Yokin's FlashAir Javascript client library
  * (c) 2015 Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  *
- * @version 0.9.4
+ * @version 0.9.5
  * @author Yokinsoft Jake.Y.Yoshimura
  * @license MIT License
  */
@@ -134,7 +134,7 @@ declare module FlashAir {
  * Yokin's FlashAir Javascript client library
  * (c) 2015 Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  *
- * @version 0.9.4
+ * @version 0.9.5
  * @author Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  * @license MIT License
  */
@@ -158,6 +158,11 @@ declare module FlashAir {
          * `number` larger than 0 : sets polling interval in miliseconds.
          */
         polling?: boolean | number;
+        /**
+         * true: to check host presence by accessing command.cgi?op=108 (firmware version) [default]
+         * false: to skip host check.
+         */
+        checkHost?: boolean;
     }
     /**
      * HTTP client for FlashAir.
@@ -228,6 +233,14 @@ declare module FlashAir {
          */
         isAdministrator: boolean;
         mastercode: string;
+        /**
+         * firmware version string obtained by calling command.cgi?op=108. undefined if not known yet.
+         */
+        firmware: string;
+        /**
+         * version compatibility by number 1, 2, 3...
+         */
+        firmwareVersionNumber: number;
         /**
          * holds current language. This value comes from user's browser's language setting, otherwise is obtained by command.cgi accept language.
          */

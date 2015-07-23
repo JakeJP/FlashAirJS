@@ -14,11 +14,11 @@
   "dependencies": {
     "del": "^1.2.0",
     "gulp": "^3.9.0",
-    "gulp-merge": "^0.1.1",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-typedoc": "^1.1.0",
     "gulp-typescript": "^2.7.7",
-    "gulp-uglify": "^1.2.0"
+    "gulp-uglify": "^1.2.0",
+    "merge-stream": "^0.1.8"
   }
 }

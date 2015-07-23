@@ -149,6 +149,8 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#upload" class="tsd-kind-icon">Upload</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_flashairclient_.flashair.flashairclient.html#_pausepolling" class="tsd-kind-icon">_pause<wbr>Polling</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#firmware" class="tsd-kind-icon">firmware</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#firmwareversionnumber" class="tsd-kind-icon">firmware<wbr>Version<wbr>Number</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#isadministrator" class="tsd-kind-icon">is<wbr>Administrator</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#lang" class="tsd-kind-icon">lang</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_flashairclient_.flashair.flashairclient.html#mastercode" class="tsd-kind-icon">mastercode</a></li>
@@ -199,7 +201,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:105</li>
+									<li>Defined in flashAirClient.ts:113</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -236,7 +238,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 					<div class="tsd-signature tsd-kind-icon">Command<span class="tsd-signature-symbol">:</span> <a href="_flashairclient_.flashair.command.html" class="tsd-signature-type">Command</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in flashAirClient.ts:190</li>
+							<li>Defined in flashAirClient.ts:203</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -252,7 +254,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 					<div class="tsd-signature tsd-kind-icon">Config<span class="tsd-signature-symbol">:</span> <a href="_flashairclient_.flashair.config.html" class="tsd-signature-type">Config</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in flashAirClient.ts:200</li>
+							<li>Defined in flashAirClient.ts:213</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -268,7 +270,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 					<div class="tsd-signature tsd-kind-icon">Thumbnail<span class="tsd-signature-symbol">:</span> <a href="_flashairclient_.flashair.thumbnail.html" class="tsd-signature-type">Thumbnail</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in flashAirClient.ts:195</li>
+							<li>Defined in flashAirClient.ts:208</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -284,7 +286,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 					<div class="tsd-signature tsd-kind-icon">Upload<span class="tsd-signature-symbol">:</span> <a href="_flashairclient_.flashair.upload.html" class="tsd-signature-type">Upload</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in flashAirClient.ts:205</li>
+							<li>Defined in flashAirClient.ts:218</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -300,7 +302,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 					<div class="tsd-signature tsd-kind-icon">_pause<wbr>Polling<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in flashAirClient.ts:241</li>
+							<li>Defined in flashAirClient.ts:254</li>
 						</ul>
 					</aside>
 				</section>
@@ -317,6 +319,36 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<div class="lead">
 							<p>URL for FlashAir host device like &quot;<a href="http://flashair/">http://flashair/</a>&quot;.
 							url always ends with /.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="firmware" class="tsd-anchor"></a>
+					<h3>firmware</h3>
+					<div class="tsd-signature tsd-kind-icon">firmware<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:105</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>firmware version string obtained by calling command.cgi?op=108. undefined if not known yet.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="firmwareversionnumber" class="tsd-anchor"></a>
+					<h3>firmware<wbr>Version<wbr>Number</h3>
+					<div class="tsd-signature tsd-kind-icon">firmware<wbr>Version<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in flashAirClient.ts:109</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>version compatibility by number 1, 2, 3...</p>
 						</div>
 					</div>
 				</section>
@@ -341,7 +373,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 					<div class="tsd-signature tsd-kind-icon">lang<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in flashAirClient.ts:105</li>
+							<li>Defined in flashAirClient.ts:113</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -366,7 +398,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 					<div class="tsd-signature tsd-kind-icon">photo<wbr>Share<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in flashAirClient.ts:234</li>
+							<li>Defined in flashAirClient.ts:247</li>
 						</ul>
 					</aside>
 				</section>
@@ -376,7 +408,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 					<div class="tsd-signature tsd-kind-icon">polling<wbr>Interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in flashAirClient.ts:240</li>
+							<li>Defined in flashAirClient.ts:253</li>
 						</ul>
 					</aside>
 				</section>
@@ -386,7 +418,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 					<div class="tsd-signature tsd-kind-icon">timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in flashAirClient.ts:237</li>
+							<li>Defined in flashAirClient.ts:250</li>
 						</ul>
 					</aside>
 				</section>
@@ -396,7 +428,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 					<div class="tsd-signature tsd-kind-icon">timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in flashAirClient.ts:238</li>
+							<li>Defined in flashAirClient.ts:251</li>
 						</ul>
 					</aside>
 				</section>
@@ -413,7 +445,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:211</li>
+									<li>Defined in flashAirClient.ts:224</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -441,7 +473,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:215</li>
+									<li>Defined in flashAirClient.ts:228</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -491,7 +523,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:276</li>
+									<li>Defined in flashAirClient.ts:289</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">JQueryPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -508,7 +540,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:155</li>
+									<li>Defined in flashAirClient.ts:168</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -579,7 +611,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:222</li>
+									<li>Defined in flashAirClient.ts:235</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -596,7 +628,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:231</li>
+									<li>Defined in flashAirClient.ts:244</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -613,7 +645,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:226</li>
+									<li>Defined in flashAirClient.ts:239</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -657,7 +689,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:245</li>
+									<li>Defined in flashAirClient.ts:258</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -674,7 +706,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:252</li>
+									<li>Defined in flashAirClient.ts:265</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -772,7 +804,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:246</li>
+									<li>Defined in flashAirClient.ts:259</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -789,7 +821,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:128</li>
+									<li>Defined in flashAirClient.ts:136</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -824,7 +856,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:242</li>
+									<li>Defined in flashAirClient.ts:255</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -841,7 +873,7 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in flashAirClient.ts:247</li>
+									<li>Defined in flashAirClient.ts:260</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -921,6 +953,12 @@ fa.on(<span class="hljs-string">'fa.hostready'</span>, <span class="hljs-functio
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_flashairclient_.flashair.flashairclient.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#firmware" class="tsd-kind-icon">firmware</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_flashairclient_.flashair.flashairclient.html#firmwareversionnumber" class="tsd-kind-icon">firmware<wbr>Version<wbr>Number</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_flashairclient_.flashair.flashairclient.html#isadministrator" class="tsd-kind-icon">is<wbr>Administrator</a>

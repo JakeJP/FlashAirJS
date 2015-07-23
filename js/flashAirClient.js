@@ -2,7 +2,7 @@
  * Yokin's FlashAir Javascript client library
  * (c) 2015 Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  *
- * @version 0.9.4
+ * @version 0.9.5
  * @author Yokinsoft Jake.Y.Yoshimura
  * @license MIT License
  */
@@ -198,7 +198,7 @@ var __extends = this.__extends || function (d, b) {
  * Yokin's FlashAir Javascript client library
  * (c) 2015 Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  *
- * @version 0.9.4
+ * @version 0.9.5
  * @author Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  * @license MIT License
  */
@@ -278,6 +278,10 @@ var FlashAir;
          */
         function FlashAirClient(urlBase, options) {
             _super.call(this);
+            /**
+             * version compatibility by number 1, 2, 3...
+             */
+            this.firmwareVersionNumber = 1;
             /// milisecond
             this.pollingInterval = 2000;
             this._pausePolling = false;
@@ -289,7 +293,7 @@ var FlashAir;
             me.mastercode = sessionStorage.getItem("administrator");
             // options
             me.pollingInterval = !options.polling ? me.pollingInterval : options.polling === true ? me.pollingInterval : options.polling === false ? 0 : options.polling;
-            this.setHostAddress(urlBase || "", false);
+            this.setHostAddress(urlBase || "", options.checkHost || true);
         }
         /**
          * @param newUrl new host URL of FlashAir, which may be like "http://flashair/" or "http://192.168.0.100/"
@@ -315,10 +319,16 @@ var FlashAir;
                 d.resolve();
                 return d;
             }
-            function set() {
-                if (!/\/$/.test(this.baseUrl))
+            function set(firmware) {
+                if (!/\/$/.test(newUrl))
                     newUrl = newUrl + "/";
                 me.baseUrl = newUrl;
+                me.firmware = firmware;
+                if (firmware) {
+                    var m = /(\d+)\.(\d+)\.(\d+)$/.exec(firmware);
+                    if (m)
+                        me.firmwareVersionNumber = Number(m[1]);
+                }
                 me.onHostChanged();
                 me.initWithHost();
             }
@@ -327,10 +337,14 @@ var FlashAir;
             var me = this;
             var inits = [];
             inits.push(this.browserLanguage());
-            inits.push(this.Command.IsPhotoShareEnabled().done(function (result) {
-                me.photoShareMode = result;
-                me.trigger("fa.photosharemode");
-            }));
+            if (me.firmwareVersionNumber >= 2) {
+                inits.push(this.Command.IsPhotoShareEnabled().done(function (result) {
+                    me.photoShareMode = result;
+                    me.trigger("fa.photosharemode");
+                }));
+            }
+            else
+                me.photoShareMode = false; // ver 1 model does not support this
             if (me.mastercode) {
                 inits.push($.ajax({ type: 'GET', cache: false, url: '/config.cgi?MASTERCODE=' + me.mastercode }).done(function (result) {
                     if (result == "SUCCESS") {
