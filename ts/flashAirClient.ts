@@ -2,7 +2,7 @@
  * Yokin's FlashAir Javascript client library
  * (c) 2015 Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  *
- * @version 0.9.4
+ * @version 0.9.5
  * @author Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  * @license MIT License
  */
@@ -28,6 +28,11 @@ module FlashAir {
          * `number` larger than 0 : sets polling interval in miliseconds.
          */
         polling? : boolean | number;
+        /**
+         * true: to check host presence by accessing command.cgi?op=108 (firmware version) [default]
+         * false: to skip host check.
+         */
+        checkHost? : boolean;
     }
     /**
      * HTTP client for FlashAir.
@@ -100,6 +105,14 @@ module FlashAir {
         isAdministrator : boolean;
         mastercode : string;
         /**
+         * firmware version string obtained by calling command.cgi?op=108. undefined if not known yet. 
+         */
+        firmware: string;
+        /**
+         * version compatibility by number 1, 2, 3...
+         */
+        firmwareVersionNumber: number = 1;  
+        /**
          * holds current language. This value comes from user's browser's language setting, otherwise is obtained by command.cgi accept language.
          */
         lang: string;
@@ -118,7 +131,7 @@ module FlashAir {
             me.mastercode = sessionStorage.getItem("administrator");
             // options
             me.pollingInterval = !options.polling ? me.pollingInterval :  options.polling === true ? me.pollingInterval : options.polling === false ? 0 : <number>options.polling ;
-            this.setHostAddress( urlBase || "", false);
+            this.setHostAddress( urlBase || "", options.checkHost || true );
         }
         /**
          * @param newUrl new host URL of FlashAir, which may be like "http://flashair/" or "http://192.168.0.100/"
@@ -130,7 +143,7 @@ module FlashAir {
             me.stopPolling();
             if( verify ){
                 return $.ajax({
-                    url : newUrl + "/command.cgi?op=108&TIME=" + Date.now(),
+                    url : newUrl + "/command.cgi?op=108&TIME=" + Date.now(), // get firmware version
                     timeout: 3000 
                 })
                 .done(set)
@@ -145,9 +158,14 @@ module FlashAir {
                 d.resolve();
                 return d;
             }
-            function set(){
-                if( ! /\/$/.test( this.baseUrl ) ) newUrl = newUrl + "/";
+            function set(firmware? : string){
+                if( ! /\/$/.test( newUrl ) ) newUrl = newUrl + "/";
                 me.baseUrl = newUrl;
+                me.firmware = firmware;
+                if( firmware ){
+                    var m = /(\d+)\.(\d+)\.(\d+)$/.exec(firmware);
+                    if( m ) me.firmwareVersionNumber = Number(m[1]);
+                }
                 me.onHostChanged();
                 me.initWithHost();
             }
@@ -157,13 +175,16 @@ module FlashAir {
             var me = this;
             var inits = [];
             inits.push(this.browserLanguage());
-            inits.push(
-                this.Command.IsPhotoShareEnabled()
-                    .done(function(result:boolean){
-                         me.photoShareMode = result;
-                         me.trigger("fa.photosharemode"); 
-                     }));
-                
+            if( me.firmwareVersionNumber >= 2){
+                inits.push(
+                    this.Command.IsPhotoShareEnabled()
+                        .done(function(result:boolean){
+                             me.photoShareMode = result;
+                             me.trigger("fa.photosharemode"); 
+                         }));
+                                    
+            } else me.photoShareMode = false; // ver 1 model does not support this
+
             if (me.mastercode) {
                 inits.push( 
                     $.ajax({ type: 'GET', cache: false, url: '/config.cgi?MASTERCODE=' + me.mastercode })

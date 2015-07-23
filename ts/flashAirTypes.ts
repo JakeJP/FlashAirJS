@@ -2,7 +2,7 @@
  * Yokin's FlashAir Javascript client library
  * (c) 2015 Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  *
- * @version 0.9.4
+ * @version 0.9.5
  * @author Yokinsoft Jake.Y.Yoshimura
  * @license MIT License
  */
