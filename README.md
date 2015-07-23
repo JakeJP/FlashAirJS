@@ -63,15 +63,18 @@ gulp
 
 ## Applications
 Applications that use this library are published:
-- Yokin's FlashAir Sync for Google Chrome.  Auto downloader software that runs on Windows, Linux and MacOS where Google Chrome is already installed. https://chrome.google.com/webstore/detail/yokins-flashair-sync/cmeohdjjopjjlfbiegcikeiioanainmb
-- List.htm customization. You can customize the web browser design by placing List.htm in a hidden directory of FlashAir SD. https://github.com/JakeJP/FlashAirList
+
+- **Yokin's FlashAir Sync for Google Chrome**.  Auto downloader software that runs on Windows, Linux, ChromeOS and Mac OS X where Google Chrome is already installed. https://chrome.google.com/webstore/detail/yokins-flashair-sync/cmeohdjjopjjlfbiegcikeiioanainmb
+- **Yokin's FlashAir Sync for Windows Store**. The same application for Windows 8.1, Windows 10 Store App. https://www.microsoft.com/store/apps/yokins-flashair-sync/9nblggh1mtvm
+- **List.htm customization**. You can customize the web browser design by placing List.htm in a hidden directory of FlashAir SD. https://github.com/JakeJP/FlashAirList
 
 ##Compatilibity
 Tested with FlashAir(TM) model W-03.
 
 ##Version History
 
--  0.9.4 (2015.6.20)
+- 0.9.5 to make v1 firmware compatible.
+- 0.9.4 (2015.6.20)
   initial release
 
 ##License

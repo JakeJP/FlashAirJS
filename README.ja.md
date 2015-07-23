@@ -60,15 +60,18 @@ gulp
 ## 利用例
 このライブラリを使ったアプリを公開しています。
 
-- Yokin's FlashAir Sync for Google Chrome.  Google Chrome が利用可能なWindowsや Linux、 MacOSで動作する、ファイル転送同期ツールです。Google WebStoreから入手できます。 https://chrome.google.com/webstore/detail/yokins-flashair-sync/cmeohdjjopjjlfbiegcikeiioanainmb
+- **Yokin's FlashAir Sync for Google Chrome**.  Google Chrome が利用可能なWindowsや Linux、ChromeOS、 Mac OS Xで動作する、ファイル転送同期ツールです。Google WebStoreから入手できます。 https://chrome.google.com/webstore/detail/yokins-flashair-sync/cmeohdjjopjjlfbiegcikeiioanainmb
+- **Yokin's FlashAir Sync for Windows Store**. 同じアプリを　Windows 8.1, Windows 10 のストアアプリとして実装しました。https://www.microsoft.com/ja-jp/store/apps/yokins-flashair-sync/9nblggh1mtvm
 - List.htm カスタマイズ。SDカードの隠しディレクトリにセットすることでブラウザ経由のデザインが今風にカスタマイズできます。https://github.com/JakeJP/FlashAirList
 
 ##互換性
-FlashAir(TM) 型番W-03で検証されています。
+FlashAir(TM) 型番W-03で検証されています。 (Version 1 ファームウェアでの互換性あり）
 
 ##Version History
 
--  0.9.4 (2015.6.20)
+- 0.9.5 (2015.7.23)
+  ver 1 ファームウェアとの互換性。
+- 0.9.4 (2015.6.20)
   initial release
 
 ##License
