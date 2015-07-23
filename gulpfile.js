@@ -4,7 +4,7 @@ var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
 	rename = require('gulp-rename'),
 	typedoc = require('gulp-typedoc'),
-	merge = require('gulp-merge'),
+	merge = require('merge-stream'),
 	del = require('del');
 
 gulp.task('doc', function(){
@@ -47,6 +47,6 @@ gulp.task('js', function(){
 
 gulp.task('clean', function(){
 	del(['doc','typings','node_modules','js']);
-})
+});
 
 gulp.task('default', ['js','doc'] );
