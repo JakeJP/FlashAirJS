@@ -238,7 +238,8 @@ module FlashAir {
             var p : string;
             if( typeof path == "string" ) p = <string> path;
             else p = ( (<FileInfoRaw> path).r_uri || (<FileInfo>path).Directory) + "\\" + ((<FileInfoRaw> path).fname || (<FileInfo> path).Name );
-            return this.baseUrl + p.replace("\\", "/");
+            p = p.replace("\\", "/");
+            return this.baseUrl + ( /^\//.test(p)  ? p.substr(1) : p); 
         }
         protected onHostChanged()
         {

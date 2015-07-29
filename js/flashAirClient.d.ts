@@ -1,6 +1,6 @@
 /// <reference path="typings/jquery/jquery.d.ts" />
 /**
- * Yokin's FlashAir Javascript client library
+ * Yokin's FlashAir Javascript client library type definitions
  * (c) 2015 Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  *
  * @version 0.9.5

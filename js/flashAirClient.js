@@ -1,5 +1,5 @@
 /**
- * Yokin's FlashAir Javascript client library
+ * Yokin's FlashAir Javascript client library type definitions
  * (c) 2015 Yokinsoft Jake.Y.Yoshimura http://www.yo-ki.com
  *
  * @version 0.9.5
@@ -374,7 +374,8 @@ var FlashAir;
                 p = path;
             else
                 p = (path.r_uri || path.Directory) + "\\" + (path.fname || path.Name);
-            return this.baseUrl + p.replace("\\", "/");
+            p = p.replace("\\", "/");
+            return this.baseUrl + (/^\//.test(p) ? p.substr(1) : p);
         };
         FlashAirClient.prototype.onHostChanged = function () {
             this.trigger("fa.hostchanged");
